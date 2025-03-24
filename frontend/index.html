@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clickstream Tracking</title>
+    <script>
+      function trackEvent(category, action, label) {
+        const eventData = {
+          category: category,
+          action: action,
+          label: label,
+          url: window.location.href,
+          timestamp: new Date().toISOString(),
+        };
+
+        fetch("http://127.0.0.1:8000/track", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(eventData),
+        });
+      }
+
+      // Track page view when the page loads
+      window.onload = function () {
+        trackEvent("Page View", "Load", document.title);
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to Clickstream Tracking</h1>
+    <p>Click the button to track an event.</p>
+    <button onclick="trackEvent('Button Click', 'Click', 'Track Button')">
+      Track Click
+    </button>
+  </body>
+</html>
